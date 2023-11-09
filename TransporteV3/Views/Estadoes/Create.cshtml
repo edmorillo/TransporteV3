@@ -1,0 +1,47 @@
+﻿@model TransporteV3.Entidades.Estado
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container-fluid px-4">
+
+    <div class="card-header">
+        <h2 class="mt-4">Crear Estado</h2>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a class="nav-link btn btn-link" asp-controller="Home" asp-action="Index">Inicio</a></li>
+            <li class="breadcrumb-item active">Crear Estado</li>
+        </ol>
+    </div>
+    <div class="card mb-4">
+
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <form class="row g-3 needs-validation" novalidate asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="col-12 col-sm-6 form-floating mb-2">
+
+                            <input asp-for="Estado1" class="form-control" placeholder="" required />
+                            <label asp-for="Estado1" class="control-label"></label>
+                            <span asp-validation-for="Estado1" class="text-danger"></span>
+                            <span asp-validation-for="Estado1" class="valid-feedback">Datos correctos!</span>
+                            <span asp-validation-for="Estado1" class="invalid-feedback">Complete los datos!</span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Guardar" class="btn btn-success rounded-pill px-3" />
+                            <a asp-action="Index" class="btn btn-info rounded-pill px-3">Volver</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

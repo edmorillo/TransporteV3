@@ -1,0 +1,63 @@
+﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+
+</script>
+
+@*<script>
+    document.getElementById('crearForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        Swal.fire({
+            title: 'Esta seguro?',
+            text: 'Desea insertar este producto?',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                e.target.submit();
+            }
+        });
+    });
+</script>*@
+
+<script>
+    function mostrarOcultarContrasena() {
+        var contrasenaInput = document.getElementById("contrasena");
+        var contrasenaMostrada = document.getElementById("contrasenaMostrada");
+        var mostrarContrasenaCheckbox = document.getElementById("mostrarContrasena");
+
+        if (mostrarContrasenaCheckbox.checked) {
+            contrasenaInput.type = "text";
+            contrasenaMostrada.style.display = "block";
+            contrasenaMostrada.textContent = "Contraseña: " + contrasenaInput.value;
+        } else {
+            contrasenaInput.type = "password";
+            contrasenaMostrada.style.display = "none";
+        }
+    }
+</script>

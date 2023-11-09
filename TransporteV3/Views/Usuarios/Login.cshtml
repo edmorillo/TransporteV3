@@ -1,0 +1,93 @@
+﻿@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+@*LOGIN*@
+
+@if (ViewData.Keys.Contains("mensaje"))
+{
+    <p style="color: red;">
+        @ViewData["mensaje"]
+    </p>
+}
+
+<div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-6 col-lg-12 col-md-9">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="text-center">
+                        <div class="col-lg-6 d-none d-lg-block"><img style="height: 170px;" src="https://www.transportesmouzo.com.ar/wp-content/uploads/elementor/thumbs/transportes-mouzo-logoazulok-or90p9thduuxaurxlkpl7200ysesqroy4aqmcfb8qo.png"></div>
+                        </div>
+                        
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Bienvenido de nuevo!</h1>
+                                </div>
+                                <form asp-action="Login" class="user">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-floating mb-2">
+                                    <input asp-for="Email" class="form-control form-control-user"
+                                           placeholder="Dirección de correo electrónico">
+                                    <label asp-for="Email" class="control-label">Introducir la dirección de correo electrónico...</label>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-2">
+                                    <input asp-for="Password" class="form-control form-control-user"
+                                           id="contrasena" placeholder="Contraseña">
+                                    <label asp-for="Password" class="control-label">Introducir contraseña...</label>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mostrarContrasena">Mostrar Contraseña:</label>
+                                    <input type="checkbox" id="mostrarContrasena" onchange="mostrarOcultarContrasena()">
+                                </div>
+                                    @*<div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                            <input type="checkbox" class="custom-control-input" asp-for="Recuerdame">
+                                            <label class="custom-control-label" asp-for="Recuerdame">
+                                                Recuerdame
+                                            </label>
+
+                                        </div>
+                                    </div>*@
+                                    <button class="btn btn-primary btn-user btn-block">Iniciar sesión</button>
+
+                                    @*<hr>
+                                    <a asp-action="LoginExterno" asp-route-proveedor="Microsoft" class="btn btn-google btn-user btn-block">
+                                        <i class="bi bi-microsoft"></i> Iniciar sesión con Microsoft
+                                    </a>*@
+
+                                </form>
+                                <hr>
+                                @*<div class="text-center">
+                                <a class="small" href="#">Has olvidado tu contraseña?</a>
+                                </div>*@
+                                <div class="text-center">
+                                    <a class="small" asp-action="Registro">Crear una cuenta!</a>
+                                </div>
+
+                            </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

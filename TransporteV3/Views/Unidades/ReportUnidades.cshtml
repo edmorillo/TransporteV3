@@ -1,0 +1,232 @@
+﻿@using TransporteV3.Servicios;
+@model IEnumerable<TransporteV3.Entidades.Unidade>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+@if (User.IsInRole(Constantes.RolAdmin) || User.IsInRole(Constantes.RolStandar))
+{
+    <div class="container-fluid px-4">
+
+        <div class="card-header">
+            <h2 class="mt-4">Reportes Unidades</h2>
+            <ol class="breadcrumb mb-4"></ol>
+        </div>
+
+
+        <!-- Content Row -->
+        <div class="row">
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Earnings (Monthly)
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Earnings (Annual)
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                    Tasks
+                                </div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="progress progress-sm mr-2">
+                                            <div class="progress-bar bg-info" role="progressbar"
+                                                 style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                                                 aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Pending Requests
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-comments fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sb-sidenav-menu-heading"></div>
+        @*submenú de Reportes*@
+
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsereporte" aria-expanded="false" aria-controls="collapsereporte">
+            <div class="sb-nav-link-icon"></div>
+            <h5>
+                Seleccione un Reporte
+            </h5>
+
+            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+
+
+
+        <div class="collapse" id="collapsereporte" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+            <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link" asp-controller="Choferes" asp-action="ReportChoferes">Reportes Choferes</a>
+                <a class="nav-link" asp-controller="Unidades" asp-action="ReportUnidades">Reportes Unidades</a>
+                <a class="nav-link" asp-controller="Viajes" asp-action="ReportViajes">Reportes Viejaes</a>
+            </nav>
+        </div>
+        <br />
+        <br />
+
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Matricula)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Chasis)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Modelo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Año)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CapacidadCarga)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Kilometros)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaMantenimiento)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaCompra)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.VencimientoUnidad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdNeumaticoNavigation)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdTipoUnidadNavigation)
+                    </th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Matricula)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Chasis)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Modelo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Año)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CapacidadCarga)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Kilometros)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaMantenimiento)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaCompra)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VencimientoUnidad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdNeumaticoNavigation.IdNeumatico)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdTipoUnidadNavigation.IdTipoUnidad)
+                        </td>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+
+}
+else
+{
+
+    <div class="container-fluid px-4">
+        <div class="card-header">
+            <h2 class="mt-4">Advertencia</h2>
+            <ol class="breadcrumb mb-4"></ol>
+        </div>
+
+
+        <p>No tiene permiso para ver el contenido. Póngase en contacto con su administrador para obtener los permisos necesarios.</p>
+
+        <img style="height: 300px; width:500px" src="https://kdosd.com/wp-content/uploads/2022/02/Como-evitar-que-el-Error-404-afecte-a-tu-SEO-1024x643.jpeg" />
+    </div>
+}

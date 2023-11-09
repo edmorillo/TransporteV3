@@ -1,0 +1,119 @@
+﻿@using TransporteV3.Servicios;
+@model IEnumerable<TransporteV3.Entidades.Cliente>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container-fluid px-4">
+
+    <div class="card-header">
+        <h2 class="mt-4">Administrar Clientes</h2>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a class="nav-link btn btn-link" asp-controller="Home" asp-action="Index">Inicio</a></li>
+            <li class="breadcrumb-item active">Administrar Clientes</li>
+        </ol>
+    </div>
+    <div class="card mb-4">
+
+
+        <div class="card-body">
+            <p>
+                <a asp-action="Create" class="btn btn-primary rounded-pill px-3">Crear Cliente</a>
+            </p>
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Apellido)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdCondicionIvaNavigation)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RazonSocial)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Cuit)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdProvinciaNavigation)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Direccion)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CodigoPostal)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Telefono)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IngresosBrutos)
+                        </th>
+                        
+                       
+                        <th>
+                            Acción
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Apellido)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdCondicionIvaNavigation.CondicionIva1)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RazonSocial)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cuit)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdProvinciaNavigation.Provincia)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Direccion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CodigoPostal)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Telefono)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IngresosBrutos)
+                            </td>
+                            
+                            
+                            <td>
+                                <a asp-action="Edit" class="btn btn-info" asp-route-id="@item.IdCliente"><i class="bi bi-journal-text"></i></a>
+                                @if (User.IsInRole(Constantes.RolAdmin))
+                                {
+                                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.IdCliente"><i class="bi bi-trash3"></i></a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

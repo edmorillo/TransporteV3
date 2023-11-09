@@ -1,0 +1,131 @@
+﻿@using TransporteV3.Servicios;
+@model IEnumerable<TransporteV3.Entidades.Viaje>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container-fluid px-4">
+
+    <div class="card-header">
+        <h2 class="mt-4">Administrar Viajes</h2>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a class="nav-link btn btn-link" asp-controller="Home" asp-action="Index">Inicio</a></li>
+            <li class="breadcrumb-item active">Administrar Viajes</li>
+        </ol>
+    </div>
+    <div class="card mb-4">
+
+
+        <div class="card-body">
+            <p>
+                <a asp-action="Create" class="btn btn-primary rounded-pill px-3">Crear Viaje</a>
+            </p>
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Viajes)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Origen)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Destino)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tarifa)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Escobrado)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Detalle)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Remito)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Ncontenedor)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.EsFacturado)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Entidad)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nfactura)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdChoferNavigation)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdClienteNavigation)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdFormaPagoNavigation)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Viajes)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Origen)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Destino)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Tarifa)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Escobrado)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Detalle)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Remito)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Ncontenedor)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EsFacturado)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Entidad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nfactura)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdChoferNavigation.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdClienteNavigation.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdFormaPagoNavigation.FormaPago)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" class="btn btn-info" asp-route-id="@item.IdViajes"><i class="bi bi-journal-text"></i></a>
+                                @if (User.IsInRole(Constantes.RolAdmin))
+                                {
+                                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.IdViajes"><i class="bi bi-trash3"></i></a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

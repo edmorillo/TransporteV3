@@ -1,0 +1,101 @@
+﻿@model TransporteV3.Entidades.Cliente
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div class="container-fluid px-4">
+
+    <div class="card-header">
+        <h2 class="mt-4">Eliminar Cliente</h2>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a class="nav-link btn btn-link" asp-controller="Home" asp-action="Index">Inicio</a></li>
+            <li class="breadcrumb-item active">Eliminar Cliente</li>
+        </ol>
+    </div>
+    <div class="card mb-4">
+
+
+        <div class="card-body">
+            <h3>¿Estás seguro que quieres eliminar esto?</h3>
+            <br />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Nombre)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Apellido)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Apellido)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.IdCondicionIvaNavigation)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.IdCondicionIvaNavigation.CondicionIva1)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.RazonSocial)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.RazonSocial)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Cuit)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Cuit)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.IdProvinciaNavigation)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.IdProvinciaNavigation.Provincia)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Direccion)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Direccion)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CodigoPostal)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CodigoPostal)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Telefono)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Telefono)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.IngresosBrutos)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.IngresosBrutos)
+                </dd>
+
+
+            </dl>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="IdCliente" />
+                <input type="submit" value="Eliminar" class="btn btn-danger" />
+                <a asp-action="Index" class="btn btn-light">Cancelar</a>    
+            </form>
+        </div>
+    </div>
+</div>
+

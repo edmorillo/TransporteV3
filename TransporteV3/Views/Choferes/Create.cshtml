@@ -1,0 +1,130 @@
+﻿@model TransporteV3.Entidades.Chofere
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container-fluid px-4">
+
+    <div class="card-header">
+        <h2 class="mt-4">Crear Chofer</h2>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a class="nav-link btn btn-link" asp-controller="Home" asp-action="Index">Inicio</a></li>
+            <li class="breadcrumb-item active">Crear Chofer</li>
+        </ol>
+    </div>
+    <div class="card mb-4">
+
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <form class="row g-3 needs-validation" novalidate asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="col-12 col-sm-4 form-floating mb-2">
+                            <input asp-for="Nombre" class="form-control " placeholder="Ingrese Su nombre" required />
+                            <label asp-for="Nombre" class="control-label">Ingrese su nombre</label>
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                            <span asp-validation-for="Nombre" class="valid-feedback">Datos correctos!</span>
+                            <span asp-validation-for="Nombre" class="invalid-feedback">Complete los datos!</span>
+                        </div>
+                        <div class="col-12 col-sm-4 form-floating mb-2">
+                            <input asp-for="Apellido" class="form-control" placeholder="Ingrese su Apellido" />
+                            <label asp-for="Apellido" class="control-label"></label>
+                            <span asp-validation-for="Apellido" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-sm-4 form-floating mb-2">
+                            <input asp-for="FechaNacimiento" class="form-control" placeholder="Ingrese fecha de Nacimiento" />
+                            <label asp-for="FechaNacimiento" class="control-label"></label>
+                            <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+                        </div>
+                        <div class="col-12 col-sm-4 form-floating mb-2">
+                            <select asp-for="IdTdocuC" class="form-select" asp-items="ViewBag.IdTdocuC" required><option selected disabled value="">Seleccione un tipo de Documento</option></select>
+                            <label asp-for="IdTdocuC" for="floatingSelect"></label>
+                            <span asp-validation-for="IdTdocuC" class="valid-feedback">Datos correctos!</span>
+                            <span asp-validation-for="IdTdocuC" class="invalid-feedback">Seleccione un tipo de Documento</span>
+                        </div>
+                        <div class="col-12 col-sm-2 form-floating mb-2">
+                            <input asp-for="Ndocumento" class="form-control" placeholder="Ingrese su documento" required />
+                            <label asp-for="Ndocumento" class="control-label"></label>
+                            <span asp-validation-for="Ndocumento" class="text-danger"></span>
+                            <span asp-validation-for="Ndocumento" class="valid-feedback">Datos correctos!</span>
+                            <span asp-validation-for="Ndocumento" class="invalid-feedback">EL campo solo debe contener 8 digitos</span>
+                        </div>
+                        <div class="col-12 col-sm-3 form-floating mb-2">
+
+                            <input asp-for="NuTramite" class="form-control" placeholder="Ingrese n° trámite" required />
+                            <label asp-for="NuTramite" class="control-label"></label>
+                            <span asp-validation-for="NuTramite" class="text-danger"></span>
+                            <span asp-validation-for="NuTramite" class="valid-feedback">Datos correctos!</span>
+                            <span asp-validation-for="NuTramite" class="invalid-feedback">EL campo solo debe contener 11 digitos</span>
+                        </div>
+                        <div class="col-12 col-sm-3 form-floating mb-2">
+                            <input asp-for="Cuil" class="form-control" placeholder="" required />
+                            <label asp-for="Cuil" class="control-label"></label>
+                            <span asp-validation-for="Cuil" class="text-danger"></span>
+                            <span asp-validation-for="Cuil" class="valid-feedback">Datos correctos!</span>
+                            <span asp-validation-for="Cuil" class="invalid-feedback">EL campo solo debe contener 11 digitos</span>
+                        </div>
+
+                        <div class="col-12 col-sm-3 form-floating mb-2">
+                            <select asp-for="IdProvincia" class="form-select" asp-items="ViewBag.IdProvincia" required><option selected disabled value="">Seleccione una Provincia</option></select>
+                            <label asp-for="IdProvincia" for="floatingSelect"></label>
+                            <span asp-validation-for="IdProvincia" class="valid-feedback">Datos correctos!</span>
+                            <span asp-validation-for="IdProvincia" class="invalid-feedback">Seleccione una Provincia</span>
+                        </div>
+                        <div class="col-12 col-sm-5 form-floating mb-2">
+                            <input asp-for="Direccion" class="form-control" placeholder="Ingrese su Dirección" />
+                            <label asp-for="Direccion" class="control-label"></label>
+                            <span asp-validation-for="Direccion" class="text-danger"></span>
+                        </div>
+                        <div class=" col-12 col-sm-4 form-floating mb-2">
+                            <input asp-for="Email" class="form-control" placeholder="Ingrese su correo" required />
+                            <label asp-for="Email" class="control-label"></label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                            <span asp-validation-for="Email" class="valid-feedback">Datos correctos!</span>
+                            <span asp-validation-for="Email" class="invalid-feedback">El campo debe ser un correo electrónico válido</span>
+                        </div>
+
+                        <div class="col-12 col-sm-3 form-floating mb-2">
+                            <input asp-for="Celular" class="form-control" placeholder="Ingrese su celular" />
+                            <label asp-for="Celular" class="control-label"></label>
+                            <span asp-validation-for="Celular" class="text-danger"></span>
+                        </div>
+                        <div class="col-12 col-sm-3 form-floating mb-2">
+
+                            <input asp-for="FechaAlta" class="form-control" />
+                            <label asp-for="FechaAlta" class="control-label"></label>
+                            <span asp-validation-for="FechaAlta" class="text-danger"></span>
+                        </div>
+                        <div class="col-12 col-sm-3 form-floating mb-2">
+
+                            <input asp-for="FechaBaja" class="form-control" placeholder="" disabled />
+                            <label asp-for="FechaBaja" class="control-label"></label>
+                            <span asp-validation-for="FechaBaja" class="text-danger"></span>
+                        </div>
+                        <div class="col-12 col-sm-3 form-floating mb-2">
+                            <select asp-for="IdEstado" class="form-select" asp-items="ViewBag.IdEstado" required><option selected disabled value="">Seleccione el estado del chofer</option></select>
+                            <label asp-for="IdEstado" class="control-label"></label>
+                            <span asp-validation-for="IdEstado" class="valid-feedback">Datos correctos!</span>
+                            <span asp-validation-for="IdEstado" class="invalid-feedback">Seleccione un estado</span>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="Guardar" class="btn btn-success rounded-pill px-3" />
+                            <a asp-action="Index" class="btn btn-info rounded-pill px-3">Volver</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

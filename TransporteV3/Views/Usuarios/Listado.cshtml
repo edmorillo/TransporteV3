@@ -1,0 +1,92 @@
+﻿@model UsuariosListadoViewModel
+
+@{
+    ViewData["Title"] = "Listado de usuarios";
+    Layout = "../shared/_layout";
+}
+
+<div class="container-fluid px-4">
+
+    <div class="card-header">
+        <h2 class="mt-4">Listado de usuarios</h2>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a class="nav-link btn btn-link" asp-controller="Home" asp-action="Index">Inicio</a></li>
+            <li class="breadcrumb-item active">Listado de usuarios</li>
+        </ol>
+    </div>
+    <div class="card mb-4">
+
+
+        <div class="card-body">
+
+            @if (Model.Mensaje is not null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @Model.Mensaje
+                </div>
+            }
+
+            @if (Model.Usuarios is not null)
+            {
+
+                <form method="post">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <td>Email</td>
+                                <td>Acción</td>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var usuario in Model.Usuarios)
+                            {
+                                <tr>
+                                    <td>
+                                        @usuario.Email
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-outline-primary rounded-pill px-3 me-2"
+                                                asp-action="HacerAdmin"
+                                                asp-route-email="@usuario.Email">
+                                            Hacer Admin
+                                        </button>
+                                        <button class="btn btn-outline-danger rounded-pill px-3 me-2"
+                                                asp-action="RemoverAdmin"
+                                                asp-route-email="@usuario.Email">
+                                            Remover Admin
+                                        </button>||
+                                        <button class="btn btn-outline-primary rounded-pill px-3 me-2"
+                                                asp-action="HacerUserStandar"
+                                                asp-route-email="@usuario.Email">
+                                            Hacer User Standar
+                                        </button>
+                                        <button class="btn btn-outline-danger rounded-pill px-3 me-2"
+                                                asp-action="RemoverUserStandar"
+                                                asp-route-email="@usuario.Email">
+                                            Remover User Standar
+                                        </button>||
+                                        @*<button class="btn btn-outline-danger rounded-pill px-3 me-2"
+                                asp-action="Delete"
+                                asp-route-email="@usuario.Id">
+                                Eliminar Usuario
+                                </button>*@
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </form>
+
+            }
+            else
+            {
+                <p>No hay usuarios para mostrar</p>
+            }
+
+        </div>
+
+    </div>
+
+</div>
