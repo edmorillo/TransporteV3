@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace TransporteV3.Controllers
     {
         private readonly TAIProdContext _context;
         private readonly string cadenaSQL;
+
 
         public ChoferesController(TAIProdContext context, IConfiguration config)
         {
@@ -30,16 +32,28 @@ namespace TransporteV3.Controllers
             return View(await tAIProdContext.ToListAsync());
         }
 
+        // GET: Total de Choferes
+        //public async Task<IActionResult> TotalChoferesService()
+        //{
+        //    int totalChoferes = _context.Choferes.Count();
+        //    ViewBag.TotalChoferes = totalChoferes;
+        //    var tAIProdContext = _context.Choferes.Include(c => c.IdEstadoNavigation).Include(c => c.IdProvinciaNavigation).Include(c => c.IdTdocuCNavigation);
+        //    return View(await tAIProdContext.ToListAsync());
+        //}
+
         //ReportChoferes
         public async Task<IActionResult> ReportChoferes()
         {
+            int totalChoferes = _context.Choferes.Count();
+            ViewBag.TotalChoferes = totalChoferes;
             var tAIProdContext = _context.Choferes.Include(c => c.IdEstadoNavigation).Include(c => c.IdProvinciaNavigation).Include(c => c.IdTdocuCNavigation);
             return View(await tAIProdContext.ToListAsync());
         }
 
-
+        //Esport a excel
         public IActionResult Exportar_excel(DateTime fechainicio, DateTime fechafin)
         {
+
             DataTable tabla_choferes = new DataTable();
 
             using (var conexion = new SqlConnection(cadenaSQL))
@@ -47,7 +61,7 @@ namespace TransporteV3.Controllers
                 conexion.Open();
                 using (var adapter = new SqlDataAdapter())
                 {
-                    adapter.SelectCommand = new SqlCommand("sp_reporte_PruebaChoferes", conexion);
+                    adapter.SelectCommand = new SqlCommand("sp_reporte_Choferes", conexion);
                     adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
                     adapter.SelectCommand.Parameters.AddWithValue("@FechaInicio", fechainicio);
                     adapter.SelectCommand.Parameters.AddWithValue("@FechaFin", fechafin);
@@ -74,11 +88,63 @@ namespace TransporteV3.Controllers
 
         }
 
+        //prueba
+
+        //public IActionResult Exportar_excel(DateTime fechainicio, DateTime fechafin)
+        //{
+        //    try
+        //    {
+        //        DataTable tabla_choferes = new DataTable();
+
+        //        using (var conexion = new SqlConnection(cadenaSQL))
+        //        {
+        //            conexion.Open();
+        //            using (var adapter = new SqlDataAdapter())
+        //            {
+        //                adapter.SelectCommand = new SqlCommand("sp_reporte_Choferes", conexion);
+        //                adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+        //                adapter.SelectCommand.Parameters.AddWithValue("@FechaInicio", fechainicio);
+        //                adapter.SelectCommand.Parameters.AddWithValue("@FechaFin", fechafin);
+
+        //                adapter.Fill(tabla_choferes);
+        //            }
+        //        }
+
+        //        if (tabla_choferes.Rows.Count == 0)
+        //        {
+        //            // No hay datos, lanzar una excepción personalizada
+        //            throw new InvalidOperationException("No hay datos disponibles para las fechas seleccionadas.");
+        //        }
+
+        //        using (var libro = new XLWorkbook())
+        //        {
+        //            tabla_choferes.TableName = "Choferes";
+        //            var hoja = libro.Worksheets.Add(tabla_choferes);
+        //            hoja.ColumnsUsed().AdjustToContents();
+
+        //            using (var memoria = new MemoryStream())
+        //            {
+        //                libro.SaveAs(memoria);
+
+        //                var nombreExcel = string.Concat("Reporte choferes", DateTime.Now.ToString(), ".xlsx");
+        //                return File(memoria.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreExcel);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Capturar la excepción y devolver un mensaje de error
+        //        return BadRequest($"Error al exportar el archivo Excel: {ex.Message}");
+        //        //return RedirectToAction("Listado",
+        //        //routeValues: new { mensaje = "Los datos ingresados, no tiene el formato correcto "  });
+        //    }
+        //}
 
 
 
-        // GET: Choferes/Details/5
-        public async Task<IActionResult> Details(int? id)
+
+            // GET: Choferes/Details/5
+            public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Choferes == null)
             {

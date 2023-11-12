@@ -9,247 +9,187 @@
     <div class="container-fluid px-4">
 
         <div class="card-header">
-            <h2 class="mt-4">Reportes Choferes</h2>
-            <ol class="breadcrumb mb-4"></ol>
+            <h4 class="mt-4">Reportes Choferes</h4>
+
         </div>
 
 
         <!-- Content Row -->
         <div class="row">
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <!-- Total de choferes - todo visual -->
+            <div class="col-12 col-sm-3 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Earnings (Monthly)
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">Total de choferes:  @ViewBag.TotalChoferes</div>
+                                <div class="breadcrumb-item"><a asp-controller="Choferes" asp-action="Index">Más detalles</a></div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                <i class="bi bi-person-raised-hand fa-2x text-gray-300"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                    Earnings (Annual)
-                                </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
+                <div class="dropdown show float-right">
+                    <h5>
+                        Administrar Reportes
+                    </h5>
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Seleccione un Reporte
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" asp-controller="Choferes" asp-action="ReportChoferes">Reportes Choferes</a></li>
+                        <li><a class="dropdown-item" asp-controller="Unidades" asp-action="ReportUnidades">Reportes Unidades</a></li>
+                        <li><a class="dropdown-item" asp-controller="Compras" asp-action="ReportCompras">Reportes Compras</a></li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-info shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                    Tasks
-                                </div>
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col-auto">
-                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress progress-sm mr-2">
-                                            <div class="progress-bar bg-info" role="progressbar"
-                                                 style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                 aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
 
-            <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-warning shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                    Pending Requests
+
+        <div class="card mb-2">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <form asp-action="Exportar_excel" class="row g-3 needs-validation" novalidate asp-controller="Choferes" method="post">
+                            <h5>Seleccione un rango de fecha</h5>
+                            <div class="row aling-items-end">
+                                <div class="col-12 col-sm-4 mb-2">
+                                    <label class="form-label">Fecha Inicio</label>
+                                    <input class="form-control" name="fechainicio" type="text" placeholder="" required />
+                                    <p class="text-danger">Por favor ingrese de esta manera: dd/mm/aaaa</p>
+                                    <span class="valid-feedback">Datos correctos!</span>
+                                    <span class="invalid-feedback">Ingrese una fecha de inicio</span>
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                <div class="col-12 col-sm-4 mb-3 ">
+                                    <label class="form-label">Fecha Final</label>
+                                    <input class="form-control" name="fechafin" type="text" placeholder="" required />
+                                    <p class="text-danger">Por favor ingrese de esta manera: dd/mm/aaaa</p>
+                                    <span class="valid-feedback">Datos correctos!</span>
+                                    <span class="invalid-feedback">Ingrese una fecha final</span>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-success" type="submit">Exportar a Excel</button>
+                                </div>
                             </div>
-                            <div class="col-auto">
-                                <i class="fas fa-comments fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="sb-sidenav-menu-heading"></div>
-        @*submenú de Reportes*@
-
-        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsereporte" aria-expanded="false" aria-controls="collapsereporte">
-            <div class="sb-nav-link-icon"></div>
-            <h5>
-                Seleccione un Reporte
-            </h5>
-
-            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-        </a>
-
-
-
-        <div class="collapse" id="collapsereporte" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-            <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" asp-controller="Choferes" asp-action="ReportChoferes">Reportes Choferes</a>
-                <a class="nav-link" asp-controller="Unidades" asp-action="ReportUnidades">Reportes Unidades</a>
-                <a class="nav-link" asp-controller="Viajes" asp-action="ReportViajes">Reportes Viejaes</a>
-            </nav>
-        </div>
         <br />
-
-        <form asp-action="Exportar_excel" asp-controller="Choferes" method="post">
-
-            <div class="row aling-items-end">
-                <div class="col-sm-3">
-                    <label class="form-label">Fecha Inicio</label>
-                    <input class="form-control" name="fechainicio" type="text" />
-                </div>
-                <div class="col-sm-3">
-                    <label class="form-label">Fecha Fin</label>
-                    <input class="form-control" name="fechafin" type="text" />
-                </div>
-                <div class="col-sm-2">
-                    <button class="btn btn-success" type="submit">Exportar a Excel</button>
-                </div>
-            </div>
-
-
-        </form>
-        <br />
-
-        <table id="datatablesSimple">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Nombre)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Apellido)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FechaNacimiento)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IdTdocuCNavigation)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Ndocumento)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.NuTramite)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Cuil)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IdProvinciaNavigation)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Direccion)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Email)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Celular)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FechaAlta)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FechaBaja)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IdEstadoNavigation)
-                    </th>
-
-
-                    
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        <div class="card mb-2">
+            <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Nombre)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Apellido)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FechaNacimiento)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IdTdocuCNavigation.Detalle)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Ndocumento)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NuTramite)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Cuil)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IdProvinciaNavigation.Provincia)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Direccion)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Email)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Celular)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FechaAlta)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FechaBaja)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IdEstadoNavigation.Estado1)
-                        </td>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Apellido)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FechaNacimiento)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdTdocuCNavigation)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Ndocumento)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NuTramite)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Cuil)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdProvinciaNavigation)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Direccion)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Celular)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FechaAlta)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FechaBaja)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdEstadoNavigation)
+                        </th>
+
+
 
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Apellido)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FechaNacimiento)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdTdocuCNavigation.Detalle)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Ndocumento)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NuTramite)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cuil)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdProvinciaNavigation.Provincia)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Direccion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Celular)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FechaAlta)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FechaBaja)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdEstadoNavigation.Estado1)
+                            </td>
 
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        </div>
     </div>
 
 
@@ -268,4 +208,10 @@ else
 
         <img style="height: 300px; width:500px" src="https://kdosd.com/wp-content/uploads/2022/02/Como-evitar-que-el-Error-404-afecte-a-tu-SEO-1024x643.jpeg" />
     </div>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

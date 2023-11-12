@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,18 +15,71 @@ namespace TransporteV3.Controllers
     public class ComprasController : Controller
     {
         private readonly TAIProdContext _context;
+        private readonly string cadenaSQL;
 
-        public ComprasController(TAIProdContext context)
+        
+        public ComprasController(TAIProdContext context, IConfiguration config)
         {
             _context = context;
+            cadenaSQL = config.GetConnectionString("cadenasql");
         }
 
         // GET: Compras
         public async Task<IActionResult> Index()
-        {
+        {            
             var tAIProdContext = _context.Compras.Include(c => c.IdFormaPagoNavigation);
             return View(await tAIProdContext.ToListAsync());
         }
+
+
+
+        // GET: ReportCompras
+        public async Task<IActionResult> ReportCompras()
+        {
+            int totalCompras = _context.Compras.Count();
+            ViewBag.TotalCompras = totalCompras;
+            var tAIProdContext = _context.Compras.Include(c => c.IdFormaPagoNavigation);
+            return View(await tAIProdContext.ToListAsync());
+        }
+
+
+        //Esport a excel
+        public IActionResult Exportar_excel(DateTime fechainicio, DateTime fechafin)
+        {
+            DataTable tabla_compras = new DataTable();
+
+            using (var conexion = new SqlConnection(cadenaSQL))
+            {
+                conexion.Open();
+                using (var adapter = new SqlDataAdapter())
+                {
+                    adapter.SelectCommand = new SqlCommand("sp_reporte_Compra", conexion);
+                    adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    adapter.SelectCommand.Parameters.AddWithValue("@FechaInicio", fechainicio);
+                    adapter.SelectCommand.Parameters.AddWithValue("@FechaFin", fechafin);
+
+                    adapter.Fill(tabla_compras);
+                }
+            }
+
+            using (var libro = new XLWorkbook())
+            {
+                tabla_compras.TableName = "Compras";
+                var hoja = libro.Worksheets.Add(tabla_compras);
+                hoja.ColumnsUsed().AdjustToContents();
+
+                using (var memoria = new MemoryStream())
+                {
+                    libro.SaveAs(memoria);
+
+                    var nombreExcel = string.Concat("Reporte compras", DateTime.Now.ToString(), ".xlsx");
+
+                    return File(memoria.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreExcel);
+                }
+            }
+
+        }
+
 
         // GET: Compras/Details/5
         public async Task<IActionResult> Details(int? id)

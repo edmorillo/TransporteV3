@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,10 +15,12 @@ namespace TransporteV3.Controllers
     public class UnidadesController : Controller
     {
         private readonly TAIProdContext _context;
+        private readonly string cadenaSQL;
 
-        public UnidadesController(TAIProdContext context)
+        public UnidadesController(TAIProdContext context, IConfiguration config)
         {
             _context = context;
+            cadenaSQL = config.GetConnectionString("cadenasql");
         }
 
         // GET: Unidades
@@ -28,9 +33,51 @@ namespace TransporteV3.Controllers
         // GET: ReporteUnidades
         public async Task<IActionResult> ReportUnidades()
         {
+
+            int totalUnidades = _context.Unidades.Count();
+            ViewBag.TotalUnidades = totalUnidades;
             var tAIProdContext = _context.Unidades.Include(u => u.IdNeumaticoNavigation).Include(u => u.IdTipoUnidadNavigation);
             return View(await tAIProdContext.ToListAsync());
         }
+
+
+        //Esport a excel
+        public IActionResult Exportar_excel(DateTime fechainicio, DateTime fechafin)
+        {
+            DataTable tabla_unidades = new DataTable();
+
+            using (var conexion = new SqlConnection(cadenaSQL))
+            {
+                conexion.Open();
+                using (var adapter = new SqlDataAdapter())
+                {
+                    adapter.SelectCommand = new SqlCommand("sp_reporte_Unidades", conexion);
+                    adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    adapter.SelectCommand.Parameters.AddWithValue("@FechaInicio", fechainicio);
+                    adapter.SelectCommand.Parameters.AddWithValue("@FechaFin", fechafin);
+
+                    adapter.Fill(tabla_unidades);
+                }
+            }
+
+            using (var libro = new XLWorkbook())
+            {
+                tabla_unidades.TableName = "Unidades";
+                var hoja = libro.Worksheets.Add(tabla_unidades);
+                hoja.ColumnsUsed().AdjustToContents();
+
+                using (var memoria = new MemoryStream())
+                {
+                    libro.SaveAs(memoria);
+
+                    var nombreExcel = string.Concat("Reporte unidades", DateTime.Now.ToString(), ".xlsx");
+
+                    return File(memoria.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreExcel);
+                }
+            }
+
+        }
+
 
         // GET: Unidades/Details/5
         public async Task<IActionResult> Details(int? id)

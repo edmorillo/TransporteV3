@@ -1,4 +1,5 @@
 ﻿@using TransporteV3.Servicios;
+@model IEnumerable<TransporteV3.Entidades.Chofere>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -7,123 +8,66 @@
 {
     <div class="container-fluid px-4">
 
-        <div class="card-header">
-            <h2 class="mt-4">Reportes</h2>
-            <ol class="breadcrumb mb-4"></ol>
-        </div>
-
-
-        <!-- Content Row -->
-        <div class="row">
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-primary shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Earnings (Monthly)
-                                </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                    Earnings (Annual)
-                                </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-info shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                    Tasks
-                                </div>
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col-auto">
-                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress progress-sm mr-2">
-                                            <div class="progress-bar bg-info" role="progressbar"
-                                                 style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                 aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-warning shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                    Pending Requests
-                                </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-comments fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="card-header ">
+            <div class="text-center">
+                <h2 class="mt-4">Bienvenido</h2>
+                <ol class="breadcrumb mb-4"></ol>
             </div>
         </div>
+
+
 
         <div class="sb-sidenav-menu-heading"></div>
         @*submenú de Reportes*@
 
-        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsereporte" aria-expanded="false" aria-controls="collapsereporte">
-            <div class="sb-nav-link-icon"></div>
+        <div class="dropdown">
             <h5>
-                Seleccione un Reporte
+                Administrar Reportes
             </h5>
-            
-            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-        </a>
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Seleccione un Reporte
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" asp-controller="Choferes" asp-action="ReportChoferes">Reportes Choferes</a></li>
+                <li><a class="dropdown-item" asp-controller="Unidades" asp-action="ReportUnidades">Reportes Unidades</a></li>
+                <li><a class="dropdown-item" asp-controller="Compras" asp-action="ReportCompras">Reportes Compras</a></li>
+            </ul>
+        </div>
+
+        <br>
+
+
+        <div id="carouselExampleControls" class="carousel slide carousel-fade" data-bs-ride="carousel">
+
+            <div class="carousel-inner">
+
+
+                <div class="carousel-item active d-flex justify-content-center">
+                    <img src="https://www.transportesmouzo.com.ar/wp-content/uploads/2020/06/d04a33c9-86b7-411b-8397-fa23f04cb3b3.jpg" class="d-block w-50" alt="...">
+                </div>
+                <div class="carousel-item d-flex justify-content-center">
+                    <img src="https://www.transportesmouzo.com.ar/wp-content/uploads/2020/06/IMG-20190301-WA0000.jpg" class="d-block w-50" alt="...">
+                </div>
+                <div class="carousel-item d-flex justify-content-center">
+                    <img src="https://www.transportesmouzo.com.ar/wp-content/uploads/2020/06/6a1a4729-2402-48cc-a16c-fc8e559584c5.jpg" class="d-block w-50" alt="...">
+                </div>
+                <div class="carousel-item d-flex justify-content-center">
+                    <img src="https://www.transportesmouzo.com.ar/wp-content/uploads/2020/06/6783d92f-a3dc-484e-aa6a-f8a06191baab.jpg" class="d-block w-50" alt="...">
+                </div>
+
+
+            </div>
 
 
 
-        <div class="collapse" id="collapsereporte" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-            <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" asp-controller="Choferes" asp-action="ReportChoferes">Reportes Choferes</a>
-                <a class="nav-link" asp-controller="Unidades" asp-action="ReportUnidades">Reportes Unidades</a>
-                <a class="nav-link" asp-controller="Viajes" asp-action="ReportViajes">Reportes Viejaes</a>
-            </nav>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
 
     </div>
@@ -134,14 +78,17 @@ else
 {
 
     <div class="container-fluid px-4">
-        <div class="card-header">
+        <div class="card-header text-center">
+
             <h2 class="mt-4">Advertencia</h2>
             <ol class="breadcrumb mb-4"></ol>
         </div>
-
-
+        <div class="text-center">
+        
         <p>No tiene permiso para ver el contenido. Póngase en contacto con su administrador para obtener los permisos necesarios.</p>
-
+        </div>
+        <div class="d-flex justify-content-center">
         <img style="height: 300px; width:500px" src="https://kdosd.com/wp-content/uploads/2022/02/Como-evitar-que-el-Error-404-afecte-a-tu-SEO-1024x643.jpeg" />
+        </div>
     </div>
 }
