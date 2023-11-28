@@ -15,7 +15,8 @@ namespace TransporteV3.Entidades
         public int IdNeumatico { get; set; }
         public string Marca { get; set; }
         public int? Rodado { get; set; }
-        public int? Modelo { get; set; }
+        [StringLength(150)]
+        public string Modelo { get; set; }
         public int? Kilometraje { get; set; }
         [Display(Name = "Tipo de Marca")]
         public int? IdTipoMarcaNeumaticos { get; set; }
