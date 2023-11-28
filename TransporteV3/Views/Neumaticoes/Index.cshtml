@@ -8,18 +8,29 @@
 <div class="container-fluid px-4">
 
     <div class="card-header">
-        <h2 class="mt-4">Administrar Neumaticos</h2>
+        <h2 class="mt-4">Administrar Neumáticos</h2>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a class="nav-link btn btn-link" asp-controller="Home" asp-action="Index">Inicio</a></li>
-            <li class="breadcrumb-item active">Administrar Neumaticos</li>
+            <li class="breadcrumb-item active">Administrar Neumáticos</li>
         </ol>
     </div>
     <div class="card mb-4">
-
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["SuccessMessage"]
+            </div>
+        }
 
         <div class="card-body">
             <p>
-                <a asp-action="Create" class="btn btn-primary rounded-pill px-3">Crear Chofer</a>
+                <a asp-action="Create" class="btn btn-primary rounded-pill px-3">Crear Neumático</a>
             </p>
             <table id="datatablesSimple">
                 <thead>

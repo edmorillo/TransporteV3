@@ -1,4 +1,5 @@
-﻿@model IEnumerable<TransporteV3.Entidades.TiposDocumento>
+﻿@using TransporteV3.Servicios;
+@model IEnumerable<TransporteV3.Entidades.TiposDocumento>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,7 +15,18 @@
         </ol>
     </div>
     <div class="card mb-4">
-
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["SuccessMessage"]
+            </div>
+        }
 
         <div class="card-body">
             <p>
@@ -38,10 +50,10 @@
                             </td>
                             <td>
                                 <a asp-action="Edit" class="btn btn-info" asp-route-id="@item.IdTiposDocumentos"><i class="bi bi-journal-text"></i></a>
-                                @*@if (User.IsInRole(Constantes.RolAdmin))
+                                @if (User.IsInRole(Constantes.RolAdmin))
                             {
-                            <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.IdEstado"><i class="bi bi-trash3"></i></a>
-                            }*@
+                            <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.IdTiposDocumentos"><i class="bi bi-trash3"></i></a>
+                            }
                             </td>
                         </tr>
                     }

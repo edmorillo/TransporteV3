@@ -27,8 +27,8 @@ namespace TransporteV3.Entidades
         [Display(Name = "Tipo Documento")]
         public int IdTdocuC { get; set; }
         [Display(Name = "N° Documento")]
-        [StringLength(maximumLength: 8, MinimumLength = 8, ErrorMessage = "La logintud del campo {0} debe contener {1} digitos")]
-        [RegularExpression("[0-9]{8,8}", ErrorMessage = "En el campo {0} solo ingrese números")]
+        [StringLength(maximumLength: 8, MinimumLength = 7, ErrorMessage = "La logintud del campo debe contener de 7 a 8 digitos")]
+        [RegularExpression("[0-9]{7,8}", ErrorMessage = "En el campo {0} solo ingrese números")]
         public string Ndocumento { get; set; }
         [Display(Name = "N° Trámite")]
         [StringLength(maximumLength: 11, MinimumLength = 11, ErrorMessage = "La logintud del campo {0} debe contener {1} digitos")]

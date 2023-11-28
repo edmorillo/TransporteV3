@@ -30,11 +30,11 @@ namespace TransporteV3.Entidades
         public string Direccion { get; set; }
         
         
-        public int CodigoPostal { get; set; }
+        public int? CodigoPostal { get; set; }
         [EmailAddress(ErrorMessage = "El campo debe ser un correo electrónico válido")]
         public string Email { get; set; }
         
-        public int Telefono { get; set; }
+        public int? Telefono { get; set; }
         [Display(Name = "Condicción IVA")]
         public int IdCondicionIva { get; set; }
         [Display(Name = "Ingreso Bruto")]

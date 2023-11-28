@@ -180,6 +180,12 @@ namespace TransporteV3.Controllers
             return View(unidade);
         }
 
+
+        private bool UnidadeExists(int id)
+        {
+            return _context.Unidades.Any(e => e.IdUnidad == id);
+        }
+
         // GET: Unidades/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -201,27 +207,64 @@ namespace TransporteV3.Controllers
         }
 
         // POST: Unidades/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (_context.Unidades == null)
+        //    {
+        //        return Problem("Entity set 'TAIProdContext.Unidades'  is null.");
+        //    }
+        //    var unidade = await _context.Unidades.FindAsync(id);
+        //    if (unidade != null)
+        //    {
+        //        _context.Unidades.Remove(unidade);
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Unidades == null)
-            {
-                return Problem("Entity set 'TAIProdContext.Unidades'  is null.");
-            }
             var unidade = await _context.Unidades.FindAsync(id);
-            if (unidade != null)
+
+            if (unidade == null)
             {
-                _context.Unidades.Remove(unidade);
+                return NotFound();
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            try
+            {
+                // Verificar dependencias antes de eliminar
+                if (ExistenDependencias(id))
+                {
+                    TempData["ErrorMessage"] = "No se puede eliminar el dato, esta siendo usado en unidades.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                _context.Unidades.Remove(unidade);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Dato eliminado correctamente.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                // Manejar cualquier error al eliminar
+                TempData["ErrorMessage"] = "Ocurrió un error al intentar eliminar el estado.";
+                // Log del error ex.Message
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        private bool UnidadeExists(int id)
+        private bool ExistenDependencias(int unidadeId)
         {
-          return _context.Unidades.Any(e => e.IdUnidad == id);
+            // Verificar si existen dependencias (por ejemplo, con choferes)
+            return _context.LicenciasUnidads.Any(t => t.IdUnidad == unidadeId);
         }
+
     }
 }

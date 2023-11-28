@@ -23,7 +23,7 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="col-12 col-sm-3 form-floating mb-2">
 
-                            <input asp-for="Viajes" class="form-control" placeholder="" required />
+                            <input asp-for="Viajes" class="form-control" placeholder="Viajes" required />
                             <label asp-for="Viajes" class="control-label"></label>
                             <span asp-validation-for="Viajes" class="text-danger"></span>
                             <span asp-validation-for="Viajes" class="valid-feedback">Datos correctos!</span>
@@ -31,13 +31,13 @@
                         </div>
                         <div class="col-12 col-sm-3 form-floating mb-2">
 
-                            <input asp-for="Origen" class="form-control" placeholder="" />
+                            <input asp-for="Origen" class="form-control" placeholder="Origen" />
                             <label asp-for="Origen" class="control-label"></label>
                             <span asp-validation-for="Origen" class="text-danger"></span>
                         </div>
                         <div class="col-12 col-sm-3 form-floating mb-2">
 
-                            <input asp-for="Destino" class="form-control" placeholder="" />
+                            <input asp-for="Destino" class="form-control" placeholder="Destino" />
                             <label asp-for="Destino" class="control-label"></label>
                             <span asp-validation-for="Destino" class="text-danger"></span>
                         </div>
@@ -57,57 +57,62 @@
                         </div>
                         <div class="col-12 col-sm-2 form-floating mb-2">
 
-                            <input asp-for="Tarifa" class="form-control" placeholder="" />
+                            <input asp-for="Tarifa" class="form-control" placeholder="Tarifa" />
                             <label asp-for="Tarifa" class="control-label"></label>
                             <span asp-validation-for="Tarifa" class="text-danger"></span>
                         </div>
                         <div class="col-12 col-sm-2 form-floating mb-2">
 
-                            <select asp-for="IdFormaPago" class="form-control" asp-items="ViewBag.IdFormaPago" required><option selected disabled value="">Seleccione forma pago</option></select>
+                            <select asp-for="IdFormaPago" class="form-control" asp-items="ViewBag.IdFormaPago" required><option selected disabled value="">Seleccione forma pagoooooooooo</option></select>
                             <label asp-for="IdFormaPago" class="control-label"></label>
                             <span asp-validation-for="IdCliente" class="valid-feedback">Datos correctos!</span>
                             <span asp-validation-for="IdCliente" class="invalid-feedback">Seleccione una forma de pago</span>
                         </div>
                         <div class="col-12 col-sm-2 form-floating mb-2">
 
-                            <input asp-for="Escobrado" class="form-control" placeholder="" />
+                            <input asp-for="Escobrado" class="form-control" placeholder="Es cobrado" />
+                            
                             <label asp-for="Escobrado" class="control-label"></label>
                             <span asp-validation-for="Escobrado" class="text-danger"></span>
+                            <span asp-validation-for="Escobrado" class="valid-feedback">Datos correctos!</span>
+                            <span asp-validation-for="Escobrado" class="invalid-feedback">Seleccione una opción</span>
                         </div>
                         <div class="col-12 col-sm-3 form-floating mb-2">
 
-                            <input asp-for="Remito" class="form-control" placeholder="" />
+                            <input asp-for="Remito" class="form-control" placeholder="Remito" />
                             <label asp-for="Remito" class="control-label"></label>
                             <span asp-validation-for="Remito" class="text-danger"></span>
                         </div>
                         <div class="col-12 col-sm-12 form-floating mb-2">
 
-                            <textarea asp-for="Detalle" class="form-control" style="height: 75px" placeholder=""></textarea>
+                            <textarea asp-for="Detalle" class="form-control" style="height: 75px" placeholder="Detalle"></textarea>
                             <label asp-for="Detalle" class="control-label"></label>
                             <span asp-validation-for="Detalle" class="text-danger"></span>
                         </div>
 
                         <div class="col-12 col-sm-3 form-floating mb-2">
 
-                            <input asp-for="Ncontenedor" class="form-control" placeholder="" />
+                            <input asp-for="Ncontenedor" class="form-control" placeholder="° Contenedor" />
                             <label asp-for="Ncontenedor" class="control-label"></label>
                             <span asp-validation-for="Ncontenedor" class="text-danger"></span>
                         </div>
                         <div class="col-12 col-sm-3 form-floating mb-2">
 
-                            <input asp-for="EsFacturado" class="form-control" placeholder="" />
+                            <input asp-for="EsFacturado" class="form-control" placeholder="Es facturado" />                           
                             <label asp-for="EsFacturado" class="control-label"></label>
                             <span asp-validation-for="EsFacturado" class="text-danger"></span>
+                            <span asp-validation-for="Escobrado" class="valid-feedback">Datos correctos!</span>
+                            <span asp-validation-for="Escobrado" class="invalid-feedback">Seleccione una opción</span>
                         </div>
                         <div class="col-12 col-sm-3 form-floating mb-2">
 
-                            <input asp-for="Entidad" class="form-control" placeholder="" />
+                            <input asp-for="Entidad" class="form-control" placeholder="Entidad" />
                             <label asp-for="Entidad" class="control-label"></label>
                             <span asp-validation-for="Entidad" class="text-danger"></span>
                         </div>
                         <div class="col-12 col-sm-3 form-floating mb-2">
 
-                            <input asp-for="Nfactura" class="form-control" placeholder="" />
+                            <input asp-for="Nfactura" class="form-control" placeholder="N° factura" />
                             <label asp-for="Nfactura" class="control-label"></label>
                             <span asp-validation-for="Nfactura" class="text-danger"></span>
                         </div>

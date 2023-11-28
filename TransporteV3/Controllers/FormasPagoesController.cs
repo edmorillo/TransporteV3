@@ -115,6 +115,11 @@ namespace TransporteV3.Controllers
             return View(formasPago);
         }
 
+        private bool FormasPagoExists(int id)
+        {
+            return _context.FormasPagos.Any(e => e.IdFormaPago == id);
+        }
+
         // GET: FormasPagoes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -134,27 +139,64 @@ namespace TransporteV3.Controllers
         }
 
         // POST: FormasPagoes/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (_context.FormasPagos == null)
+        //    {
+        //        return Problem("Entity set 'TAIProdContext.FormasPagos'  is null.");
+        //    }
+        //    var formasPago = await _context.FormasPagos.FindAsync(id);
+        //    if (formasPago != null)
+        //    {
+        //        _context.FormasPagos.Remove(formasPago);
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.FormasPagos == null)
-            {
-                return Problem("Entity set 'TAIProdContext.FormasPagos'  is null.");
-            }
             var formasPago = await _context.FormasPagos.FindAsync(id);
-            if (formasPago != null)
+
+            if (formasPago == null)
             {
-                _context.FormasPagos.Remove(formasPago);
+                return NotFound();
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            try
+            {
+                // Verificar dependencias antes de eliminar
+                if (ExistenDependencias(id))
+                {
+                    TempData["ErrorMessage"] = "No se puede eliminar el dato, esta siendo usado en compras.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                _context.FormasPagos.Remove(formasPago);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                // Manejar cualquier error al eliminar
+                TempData["ErrorMessage"] = "Ocurrió un error al intentar eliminar el estado.";
+                // Log del error ex.Message
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        private bool FormasPagoExists(int id)
+        private bool ExistenDependencias(int formasPagoId)
         {
-          return _context.FormasPagos.Any(e => e.IdFormaPago == id);
+            // Verificar si existen dependencias (por ejemplo, con choferes)
+            return _context.Compras.Any(c => c.IdFormaPago == formasPagoId);
         }
+
+        
     }
 }

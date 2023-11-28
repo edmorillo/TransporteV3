@@ -7,10 +7,10 @@
 <div class="container-fluid px-4">
 
     <div class="card-header">
-        <h2 class="mt-4">Crear Chofer</h2>
+        <h2 class="mt-4">Editar Chofer</h2>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a class="nav-link btn btn-link" asp-controller="Home" asp-action="Index">Inicio</a></li>
-            <li class="breadcrumb-item active">Crear Chofer</li>
+            <li class="breadcrumb-item active">Editar Chofer</li>
         </ol>
     </div>
     <div class="card mb-4">
@@ -23,14 +23,14 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="IdChofer" />
                         <div class="col-12 col-sm-4 form-floating mb-2">
-                            <input asp-for="Nombre" class="form-control " placeholder="Ingrese Su nombre" required />
-                            <label asp-for="Nombre" class="control-label">Ingrese su nombre</label>
+                            <input asp-for="Nombre" class="form-control " placeholder="Nombre" required />
+                            <label asp-for="Nombre" class="control-label">Nombre</label>
                             <span asp-validation-for="Nombre" class="text-danger"></span>
                             <span asp-validation-for="Nombre" class="valid-feedback">Datos correctos!</span>
                             <span asp-validation-for="Nombre" class="invalid-feedback">Complete los datos!</span>
                         </div>
                         <div class="col-12 col-sm-4 form-floating mb-2">
-                            <input asp-for="Apellido" class="form-control" placeholder="Ingrese su Apellido" />
+                            <input asp-for="Apellido" class="form-control" placeholder="Apellido" />
                             <label asp-for="Apellido" class="control-label"></label>
                             <span asp-validation-for="Apellido" class="text-danger"></span>
                         </div>
@@ -62,7 +62,7 @@
                             <span asp-validation-for="NuTramite" class="invalid-feedback">EL campo solo debe contener 11 digitos</span>
                         </div>
                         <div class="col-12 col-sm-3 form-floating mb-2">
-                            <input asp-for="Cuil" class="form-control" placeholder="" required />
+                            <input asp-for="Cuil" class="form-control" placeholder="Cuil" required />
                             <label asp-for="Cuil" class="control-label"></label>
                             <span asp-validation-for="Cuil" class="text-danger"></span>
                             <span asp-validation-for="Cuil" class="valid-feedback">Datos correctos!</span>
@@ -95,13 +95,13 @@
                         </div>
                         <div class="col-12 col-sm-3 form-floating mb-2">
 
-                            <input asp-for="FechaAlta" class="form-control" disabled />
+                            <input asp-for="FechaAlta" class="form-control" placeholder="Fecha Alta" />
                             <label asp-for="FechaAlta" class="control-label"></label>
                             <span asp-validation-for="FechaAlta" class="text-danger"></span>
                         </div>
                         <div class="col-12 col-sm-3 form-floating mb-2">
 
-                            <input asp-for="FechaBaja" class="form-control" placeholder=""  />
+                            <input asp-for="FechaBaja" class="form-control" placeholder="Fecha Baja" disabled />
                             <label asp-for="FechaBaja" class="control-label"></label>
                             <span asp-validation-for="FechaBaja" class="text-danger"></span>
                         </div>

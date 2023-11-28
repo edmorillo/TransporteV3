@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace TransporteV3.Entidades
 {
@@ -12,7 +14,8 @@ namespace TransporteV3.Entidades
         }
 
         public int IdTiposDocumentos { get; set; }
-        public string? TipoDocumento { get; set; }
+        [Display(Name = "Tipo de Licencia")]
+        public string TipoDocumento { get; set; }
 
         public virtual ICollection<LicenciaChofer> LicenciaChofers { get; set; }
         public virtual ICollection<LicenciasUnidad> LicenciasUnidads { get; set; }

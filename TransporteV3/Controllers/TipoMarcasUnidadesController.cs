@@ -115,6 +115,12 @@ namespace TransporteV3.Controllers
             return View(tipoMarcasUnidade);
         }
 
+
+        private bool TipoMarcasUnidadeExists(int id)
+        {
+            return _context.TipoMarcasUnidades.Any(e => e.IdTipoMarcaUnidad == id);
+        }
+
         // GET: TipoMarcasUnidades/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -134,27 +140,64 @@ namespace TransporteV3.Controllers
         }
 
         // POST: TipoMarcasUnidades/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (_context.TipoMarcasUnidades == null)
+        //    {
+        //        return Problem("Entity set 'TAIProdContext.TipoMarcasUnidades'  is null.");
+        //    }
+        //    var tipoMarcasUnidade = await _context.TipoMarcasUnidades.FindAsync(id);
+        //    if (tipoMarcasUnidade != null)
+        //    {
+        //        _context.TipoMarcasUnidades.Remove(tipoMarcasUnidade);
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.TipoMarcasUnidades == null)
-            {
-                return Problem("Entity set 'TAIProdContext.TipoMarcasUnidades'  is null.");
-            }
             var tipoMarcasUnidade = await _context.TipoMarcasUnidades.FindAsync(id);
-            if (tipoMarcasUnidade != null)
+
+            if (tipoMarcasUnidade == null)
             {
-                _context.TipoMarcasUnidades.Remove(tipoMarcasUnidade);
+                return NotFound();
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            try
+            {
+                // Verificar dependencias antes de eliminar
+                if (ExistenDependencias(id))
+                {
+                    TempData["ErrorMessage"] = "No se puede eliminar el dato, esta siendo usado en tipo de unidades.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                _context.TipoMarcasUnidades.Remove(tipoMarcasUnidade);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                // Manejar cualquier error al eliminar
+                TempData["ErrorMessage"] = "Ocurrió un error al intentar eliminar el estado.";
+                // Log del error ex.Message
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        private bool TipoMarcasUnidadeExists(int id)
+        private bool ExistenDependencias(int tipoMarcasUnidadeId)
         {
-          return _context.TipoMarcasUnidades.Any(e => e.IdTipoMarcaUnidad == id);
+            // Verificar si existen dependencias (por ejemplo, con choferes)
+            return _context.TipoUnidades.Any(c => c.IdTipoMarcaUnidades == tipoMarcasUnidadeId);
         }
+
+        
     }
 }

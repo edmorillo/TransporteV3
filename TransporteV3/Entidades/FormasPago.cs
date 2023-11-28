@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace TransporteV3.Entidades
 {
@@ -12,7 +14,8 @@ namespace TransporteV3.Entidades
         }
 
         public int IdFormaPago { get; set; }
-        public string? FormaPago { get; set; }
+        [Display(Name = "Forma de Pago")]
+        public string FormaPago { get; set; }
 
         public virtual ICollection<Compra> Compras { get; set; }
         public virtual ICollection<Viaje> Viajes { get; set; }

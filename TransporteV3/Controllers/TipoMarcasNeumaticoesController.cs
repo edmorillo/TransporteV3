@@ -115,6 +115,12 @@ namespace TransporteV3.Controllers
             return View(tipoMarcasNeumatico);
         }
 
+
+        private bool TipoMarcasNeumaticoExists(int id)
+        {
+            return _context.TipoMarcasNeumaticos.Any(e => e.IdTipoMarcaNeumaticos == id);
+        }
+
         // GET: TipoMarcasNeumaticoes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -134,27 +140,65 @@ namespace TransporteV3.Controllers
         }
 
         // POST: TipoMarcasNeumaticoes/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (_context.TipoMarcasNeumaticos == null)
+        //    {
+        //        return Problem("Entity set 'TAIProdContext.TipoMarcasNeumaticos'  is null.");
+        //    }
+        //    var tipoMarcasNeumatico = await _context.TipoMarcasNeumaticos.FindAsync(id);
+        //    if (tipoMarcasNeumatico != null)
+        //    {
+        //        _context.TipoMarcasNeumaticos.Remove(tipoMarcasNeumatico);
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.TipoMarcasNeumaticos == null)
-            {
-                return Problem("Entity set 'TAIProdContext.TipoMarcasNeumaticos'  is null.");
-            }
             var tipoMarcasNeumatico = await _context.TipoMarcasNeumaticos.FindAsync(id);
-            if (tipoMarcasNeumatico != null)
+
+            if (tipoMarcasNeumatico == null)
             {
-                _context.TipoMarcasNeumaticos.Remove(tipoMarcasNeumatico);
+                return NotFound();
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            try
+            {
+                // Verificar dependencias antes de eliminar
+                if (ExistenDependencias(id))
+                {
+                    TempData["ErrorMessage"] = "No se puede eliminar el dato, esta siendo usado en neumáticos.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                _context.TipoMarcasNeumaticos.Remove(tipoMarcasNeumatico);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                // Manejar cualquier error al eliminar
+                TempData["ErrorMessage"] = "Ocurrió un error al intentar eliminar el estado.";
+                // Log del error ex.Message
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        private bool TipoMarcasNeumaticoExists(int id)
+        private bool ExistenDependencias(int tipoMarcasNeumaticoId)
         {
-          return _context.TipoMarcasNeumaticos.Any(e => e.IdTipoMarcaNeumaticos == id);
+            // Verificar si existen dependencias (por ejemplo, con choferes)
+            return _context.Neumaticos.Any(c => c.IdTipoMarcaNeumaticos == tipoMarcasNeumaticoId);
         }
+
+       
     }
 }

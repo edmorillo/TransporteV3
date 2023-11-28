@@ -24,10 +24,10 @@
                         <input type="hidden" asp-for="IdLicenciaChofer" />
                         <div class="col-12 col-sm-4 form-floating mb-2">
 
-                            <select asp-for="IdChofer" class="form-control" asp-items="ViewBag.IdChofer" required><option selected disabled value="">Seleccione un chefer</option></select>
+                            <select asp-for="IdChofer" class="form-control" asp-items="ViewBag.IdChofer" required><option selected disabled value="">Seleccione un chofer</option></select>
                             <label asp-for="IdChofer" class="control-label"></label>
                             <span asp-validation-for="IdChofer" class="valid-feedback">Datos correctos!</span>
-                            <span asp-validation-for="IdChofer" class="invalid-feedback">Seleccione un chefer</span>
+                            <span asp-validation-for="IdChofer" class="invalid-feedback">Seleccione un chofer</span>
                         </div>
                         <div class="col-12 col-sm-5 form-floating mb-2">
 
@@ -38,7 +38,7 @@
                         </div>
                         <div class="col-12 col-sm-3 form-floating mb-2">
 
-                            <input asp-for="FechaVencimiento" class="form-control" required />
+                            <input asp-for="FechaVencimiento" class="form-control" placeholder="" required />
                             <label asp-for="FechaVencimiento" class="control-label"></label>
                             <span asp-validation-for="FechaVencimiento" class="text-danger"></span>
                             <span asp-validation-for="FechaVencimiento" class="valid-feedback">Datos correctos!</span>

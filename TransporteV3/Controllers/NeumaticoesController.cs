@@ -121,6 +121,11 @@ namespace TransporteV3.Controllers
             return View(neumatico);
         }
 
+        private bool NeumaticoExists(int id)
+        {
+            return _context.Neumaticos.Any(e => e.IdNeumatico == id);
+        }
+
         // GET: Neumaticoes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -141,27 +146,67 @@ namespace TransporteV3.Controllers
         }
 
         // POST: Neumaticoes/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (_context.Neumaticos == null)
+        //    {
+        //        return Problem("Entity set 'TAIProdContext.Neumaticos'  is null.");
+        //    }
+        //    var neumatico = await _context.Neumaticos.FindAsync(id);
+        //    if (neumatico != null)
+        //    {
+        //        _context.Neumaticos.Remove(neumatico);
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Neumaticos == null)
-            {
-                return Problem("Entity set 'TAIProdContext.Neumaticos'  is null.");
-            }
             var neumatico = await _context.Neumaticos.FindAsync(id);
-            if (neumatico != null)
+
+            if (neumatico == null)
             {
-                _context.Neumaticos.Remove(neumatico);
+                return NotFound();
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            try
+            {
+                // Verificar dependencias antes de eliminar
+                if (ExistenDependencias(id))
+                {
+                    TempData["ErrorMessage"] = "No se puede eliminar el dato, esta siendo usado en unidades.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                _context.Neumaticos.Remove(neumatico);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Dato eliminado correctamente.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                // Manejar cualquier error al eliminar
+                TempData["ErrorMessage"] = "Ocurrió un error al intentar eliminar el estado.";
+                // Log del error ex.Message
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        private bool NeumaticoExists(int id)
+        private bool ExistenDependencias(int neumaticoId)
         {
-          return _context.Neumaticos.Any(e => e.IdNeumatico == id);
+            // Verificar si existen dependencias (por ejemplo, con choferes)
+            return _context.Unidades.Any(c => c.IdNeumatico == neumaticoId);
+
         }
+
+        
     }
 }

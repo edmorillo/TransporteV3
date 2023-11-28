@@ -10,14 +10,14 @@ namespace TransporteV3.Entidades
         public int IdLicenciaChofer { get; set; }
         [Display(Name = "Chofer")]
         public int? IdChofer { get; set; }
-        [Display(Name = "Tipos Licencias")]
+        [Display(Name = "Tipos Licencia")]
         public int? IdTiposDocumentos { get; set; }
         [Display(Name = "Fecha Vencimiento")]
         [DataType(DataType.Date)]
         public DateTime? FechaVencimiento { get; set; }
         [Display(Name = "Chofer")]
         public virtual Chofere IdChoferNavigation { get; set; }
-        [Display(Name = "Tipos Licencias")]
+        [Display(Name = "Tipos Licencia")]
         public virtual TiposDocumento IdTiposDocumentosNavigation { get; set; }
     }
 }

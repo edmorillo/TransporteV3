@@ -88,7 +88,10 @@ namespace TransporteV3.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdChofer"] = new SelectList(_context.Choferes, "IdChofer", "Nombre", licenciaChofer.IdChofer);
+            var _context2 = _context;
+            var listaChofer = _context2.Choferes.Where(Chofere => Chofere.IdEstado == 1).ToList();
+
+            ViewData["IdChofer"] = new SelectList(listaChofer, "IdChofer", "Nombre", licenciaChofer.IdChofer);
             ViewData["IdTiposDocumentos"] = new SelectList(_context.TiposDocumentos, "IdTiposDocumentos", "TipoDocumento", licenciaChofer.IdTiposDocumentos);
             return View(licenciaChofer);
         }

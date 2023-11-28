@@ -7,10 +7,10 @@
 <div class="container-fluid px-4">
 
     <div class="card-header">
-        <h2 class="mt-4">Agregar neumatico</h2>
+        <h2 class="mt-4">Crear Neumático</h2>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a class="nav-link btn btn-link" asp-controller="Home" asp-action="Index">Inicio</a></li>
-            <li class="breadcrumb-item active">Agregar neumatico</li>
+            <li class="breadcrumb-item active">Crear Neumático</li>
         </ol>
     </div>
     <div class="card mb-4">
@@ -23,7 +23,7 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="col-12 col-sm-4 form-floating mb-2">
                            
-                            <input asp-for="Marca" class="form-control" placeholder=""/>
+                            <input asp-for="Marca" class="form-control" placeholder="Marca"/>
                             <label asp-for="Marca" class="control-label"></label>
                             <span asp-validation-for="Marca" class="text-danger"></span>
                             <span asp-validation-for="Marca" class="valid-feedback">Datos correctos!</span>
@@ -31,7 +31,7 @@
                         </div>
                         <div class="col-12 col-sm-4 form-floating mb-2">
                             
-                            <input asp-for="Rodado" class="form-control" placeholder=""/>
+                            <input asp-for="Rodado" class="form-control" placeholder="Rodado"/>
                             <label asp-for="Rodado" class="control-label"></label>
                             <span asp-validation-for="Rodado" class="text-danger"></span>
                             <span asp-validation-for="Rodado" class="valid-feedback">Datos correctos!</span>
@@ -40,13 +40,13 @@
                         </div>
                         <div class="col-12 col-sm-4 form-floating mb-2">
                             
-                            <input asp-for="Modelo" class="form-control" placeholder=""/>
+                            <input asp-for="Modelo" class="form-control" placeholder="modelo"/>
                             <label asp-for="Modelo" class="control-label"></label>
                             <span asp-validation-for="Modelo" class="text-danger"></span>
                         </div>
                         <div class="col-12 col-sm-4 form-floating mb-2">
                            
-                            <input asp-for="Kilometraje" class="form-control" placeholder=""/>
+                            <input asp-for="Kilometraje" class="form-control" placeholder="Kilometraje" />
                             <label asp-for="Kilometraje" class="control-label"></label>
                             <span asp-validation-for="Kilometraje" class="text-danger"></span>
                         </div>

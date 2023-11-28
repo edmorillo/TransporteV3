@@ -115,6 +115,11 @@ namespace TransporteV3.Controllers
             return View(tdocumentoC);
         }
 
+        private bool TdocumentoCExists(int id)
+        {
+            return _context.TdocumentoCs.Any(e => e.IdTdocuC == id);
+        }
+
         // GET: TdocumentoCs/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -134,27 +139,64 @@ namespace TransporteV3.Controllers
         }
 
         // POST: TdocumentoCs/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (_context.TdocumentoCs == null)
+        //    {
+        //        return Problem("Entity set 'TAIProdContext.TdocumentoCs'  is null.");
+        //    }
+        //    var tdocumentoC = await _context.TdocumentoCs.FindAsync(id);
+        //    if (tdocumentoC != null)
+        //    {
+        //        _context.TdocumentoCs.Remove(tdocumentoC);
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.TdocumentoCs == null)
-            {
-                return Problem("Entity set 'TAIProdContext.TdocumentoCs'  is null.");
-            }
             var tdocumentoC = await _context.TdocumentoCs.FindAsync(id);
-            if (tdocumentoC != null)
+
+            if (tdocumentoC == null)
             {
-                _context.TdocumentoCs.Remove(tdocumentoC);
+                return NotFound();
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            try
+            {
+                // Verificar dependencias antes de eliminar
+                if (ExistenDependencias(id))
+                {
+                    TempData["ErrorMessage"] = "No se puede eliminar el dato, esta siendo usado en choferes.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                _context.TdocumentoCs.Remove(tdocumentoC);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                // Manejar cualquier error al eliminar
+                TempData["ErrorMessage"] = "Ocurrió un error al intentar eliminar el estado.";
+                // Log del error ex.Message
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        private bool TdocumentoCExists(int id)
+        private bool ExistenDependencias(int tdocumentoCId)
         {
-          return _context.TdocumentoCs.Any(e => e.IdTdocuC == id);
+            // Verificar si existen dependencias (por ejemplo, con choferes)
+            return _context.Choferes.Any(c => c.IdTdocuC == tdocumentoCId);
         }
+
+       
     }
 }

@@ -249,6 +249,12 @@ namespace TransporteV3.Controllers
             return View(chofere);
         }
 
+
+        private bool ChofereExists(int id)
+        {
+            return _context.Choferes.Any(e => e.IdChofer == id);
+        }
+
         // GET: Choferes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -271,27 +277,67 @@ namespace TransporteV3.Controllers
         }
 
         // POST: Choferes/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (_context.Choferes == null)
+        //    {
+        //        return Problem("Entity set 'TAIProdContext.Choferes'  is null.");
+        //    }
+        //    var chofere = await _context.Choferes.FindAsync(id);
+        //    if (chofere != null)
+        //    {
+        //        _context.Choferes.Remove(chofere);
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Choferes == null)
-            {
-                return Problem("Entity set 'TAIProdContext.Choferes'  is null.");
-            }
             var chofere = await _context.Choferes.FindAsync(id);
-            if (chofere != null)
+
+            if (chofere == null)
             {
-                _context.Choferes.Remove(chofere);
+                return NotFound();
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            try
+            {
+                // Verificar dependencias antes de eliminar
+                if (ExistenDependencias(id))
+                {
+                    TempData["ErrorMessage"] = "No se puede eliminar el dato, esta siendo usado en licencia de choferes o viajes.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                _context.Choferes.Remove(chofere);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Dato eliminado correctamente.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                // Manejar cualquier error al eliminar
+                TempData["ErrorMessage"] = "Ocurrió un error al intentar eliminar el estado.";
+                // Log del error ex.Message
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        private bool ChofereExists(int id)
+        private bool ExistenDependencias(int chofereId)
         {
-          return _context.Choferes.Any(e => e.IdChofer == id);
+            // Verificar si existen dependencias (por ejemplo, con choferes)
+            return _context.LicenciaChofers.Any(c => c.IdChofer == chofereId)
+            || _context.Viajes.Any(u => u.IdChofer == chofereId);
         }
+
+        
     }
 }

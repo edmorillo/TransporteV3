@@ -115,6 +115,11 @@ namespace TransporteV3.Controllers
             return View(tiposDocumento);
         }
 
+        private bool TiposDocumentoExists(int id)
+        {
+            return _context.TiposDocumentos.Any(e => e.IdTiposDocumentos == id);
+        }
+
         // GET: TiposDocumentoes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -134,27 +139,67 @@ namespace TransporteV3.Controllers
         }
 
         // POST: TiposDocumentoes/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (_context.TiposDocumentos == null)
+        //    {
+        //        return Problem("Entity set 'TAIProdContext.TiposDocumentos'  is null.");
+        //    }
+        //    var tiposDocumento = await _context.TiposDocumentos.FindAsync(id);
+        //    if (tiposDocumento != null)
+        //    {
+        //        _context.TiposDocumentos.Remove(tiposDocumento);
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.TiposDocumentos == null)
+            var tipolicencia = await _context.TiposDocumentos.FindAsync(id);
+
+            if (tipolicencia == null)
             {
-                return Problem("Entity set 'TAIProdContext.TiposDocumentos'  is null.");
+                return NotFound();
             }
-            var tiposDocumento = await _context.TiposDocumentos.FindAsync(id);
-            if (tiposDocumento != null)
+
+            try
             {
-                _context.TiposDocumentos.Remove(tiposDocumento);
+                // Verificar dependencias antes de eliminar
+                if (ExistenDependencias(id))
+                {
+                    TempData["ErrorMessage"] = "No se puede eliminar el dato, esta siendo usado en choferes o unidades.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                _context.TiposDocumentos.Remove(tipolicencia);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Dato eliminado correctamente.";
+                return RedirectToAction(nameof(Index));
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            catch (DbUpdateException)
+            {
+                // Manejar cualquier error al eliminar
+                TempData["ErrorMessage"] = "Ocurrió un error al intentar eliminar el estado.";
+                // Log del error ex.Message
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        private bool TiposDocumentoExists(int id)
+        private bool ExistenDependencias(int tipolicenciaId)
         {
-          return _context.TiposDocumentos.Any(e => e.IdTiposDocumentos == id);
+            // Verificar si existen dependencias (por ejemplo, con choferes)
+            return _context.LicenciaChofers.Any(c => c.IdTiposDocumentos == tipolicenciaId)
+            || _context.LicenciasUnidads.Any(u => u.IdTiposDocumentos == tipolicenciaId);
         }
+
+        
     }
 }

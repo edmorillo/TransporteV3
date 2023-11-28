@@ -12,11 +12,12 @@ namespace TransporteV3.Entidades
         [StringLength(maximumLength: 180, MinimumLength = 1, ErrorMessage = "La logintud máxima del campo son {1} caracteres")]
         public string Detalle { get; set; }
         public decimal? Precio { get; set; }
+        [Display(Name = "Forma de Pago")]
         public int? IdFormaPago { get; set; }
         [Display(Name = "Fecha de compra")]
         [DataType(DataType.Date)]
         public DateTime? FechaCompra { get; set; }
-        [Display(Name = "Fecha de Pago")]
+        [Display(Name = "Forma de Pago")]
         public virtual FormasPago IdFormaPagoNavigation { get; set; }
     }
 }

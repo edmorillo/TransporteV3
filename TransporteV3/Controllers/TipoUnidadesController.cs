@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -121,6 +122,12 @@ namespace TransporteV3.Controllers
             return View(tipoUnidade);
         }
 
+
+        private bool TipoUnidadeExists(int id)
+        {
+            return _context.TipoUnidades.Any(e => e.IdTipoUnidad == id);
+        }
+
         // GET: TipoUnidades/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -141,27 +148,66 @@ namespace TransporteV3.Controllers
         }
 
         // POST: TipoUnidades/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (_context.TipoUnidades == null)
+        //    {
+        //        return Problem("Entity set 'TAIProdContext.TipoUnidades'  is null.");
+        //    }
+        //    var tipoUnidade = await _context.TipoUnidades.FindAsync(id);
+        //    if (tipoUnidade != null)
+        //    {
+        //        _context.TipoUnidades.Remove(tipoUnidade);
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.TipoUnidades == null)
-            {
-                return Problem("Entity set 'TAIProdContext.TipoUnidades'  is null.");
-            }
             var tipoUnidade = await _context.TipoUnidades.FindAsync(id);
-            if (tipoUnidade != null)
+
+            if (tipoUnidade == null)
             {
-                _context.TipoUnidades.Remove(tipoUnidade);
+                return NotFound();
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            try
+            {
+                // Verificar dependencias antes de eliminar
+                if (ExistenDependencias(id))
+                {
+                    TempData["ErrorMessage"] = "No se puede eliminar el dato, esta siendo usado en unidades.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                _context.TipoUnidades.Remove(tipoUnidade);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Dato eliminado correctamente.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                // Manejar cualquier error al eliminar
+                TempData["ErrorMessage"] = "Ocurrió un error al intentar eliminar el estado.";
+                // Log del error ex.Message
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        private bool TipoUnidadeExists(int id)
+        private bool ExistenDependencias(int tipoUnidadeId)
         {
-          return _context.TipoUnidades.Any(e => e.IdTipoUnidad == id);
+            // Verificar si existen dependencias (por ejemplo, con choferes)
+            return _context.Unidades.Any(t => t.IdTipoUnidad == tipoUnidadeId);
         }
+
+
+        
     }
 }

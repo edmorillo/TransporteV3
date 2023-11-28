@@ -115,6 +115,12 @@ namespace TransporteV3.Controllers
             return View(condicionIva);
         }
 
+
+        private bool CondicionIvaExists(int id)
+        {
+            return _context.CondicionIvas.Any(e => e.IdCondicionIva == id);
+        }
+
         // GET: CondicionIvas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -134,27 +140,64 @@ namespace TransporteV3.Controllers
         }
 
         // POST: CondicionIvas/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (_context.CondicionIvas == null)
+        //    {
+        //        return Problem("Entity set 'TAIProdContext.CondicionIvas'  is null.");
+        //    }
+        //    var condicionIva = await _context.CondicionIvas.FindAsync(id);
+        //    if (condicionIva != null)
+        //    {
+        //        _context.CondicionIvas.Remove(condicionIva);
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.CondicionIvas == null)
-            {
-                return Problem("Entity set 'TAIProdContext.CondicionIvas'  is null.");
-            }
             var condicionIva = await _context.CondicionIvas.FindAsync(id);
-            if (condicionIva != null)
+
+            if (condicionIva == null)
             {
-                _context.CondicionIvas.Remove(condicionIva);
+                return NotFound();
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            try
+            {
+                // Verificar dependencias antes de eliminar
+                if (ExistenDependencias(id))
+                {
+                    TempData["ErrorMessage"] = "No se puede eliminar el dato, esta siendo usado en cliente.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                _context.CondicionIvas.Remove(condicionIva);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                // Manejar cualquier error al eliminar
+                TempData["ErrorMessage"] = "Ocurrió un error al intentar eliminar el estado.";
+                // Log del error ex.Message
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        private bool CondicionIvaExists(int id)
+        private bool ExistenDependencias(int clienteId)
         {
-          return _context.CondicionIvas.Any(e => e.IdCondicionIva == id);
+            // Verificar si existen dependencias (por ejemplo, con choferes)
+            return _context.Clientes.Any(c => c.IdCondicionIva == clienteId);
         }
+
+       
     }
 }

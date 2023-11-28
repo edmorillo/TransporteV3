@@ -14,6 +14,7 @@ namespace TransporteV3.Entidades
 
         public int IdTipoUnidad { get; set; }
         [StringLength(maximumLength: 180, MinimumLength = 1, ErrorMessage = "La logintud máxima del campo son {1} caracteres")]
+        [Display(Name = "Tipo de Unidad")]
         public string Detalle { get; set; }
         [Display(Name = "Tipo de Marca de las unidades")]
         public int? IdTipoMarcaUnidades { get; set; }

@@ -126,6 +126,11 @@ namespace TransporteV3.Controllers
             return View(cliente);
         }
 
+        private bool ClienteExists(int id)
+        {
+            return _context.Clientes.Any(e => e.IdCliente == id);
+        }
+
         // GET: Clientes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -147,27 +152,67 @@ namespace TransporteV3.Controllers
         }
 
         // POST: Clientes/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (_context.Clientes == null)
+        //    {
+        //        return Problem("Entity set 'TAIProdContext.Clientes'  is null.");
+        //    }
+        //    var cliente = await _context.Clientes.FindAsync(id);
+        //    if (cliente != null)
+        //    {
+        //        _context.Clientes.Remove(cliente);
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Clientes == null)
-            {
-                return Problem("Entity set 'TAIProdContext.Clientes'  is null.");
-            }
             var cliente = await _context.Clientes.FindAsync(id);
-            if (cliente != null)
+
+            if (cliente == null)
             {
-                _context.Clientes.Remove(cliente);
+                return NotFound();
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            try
+            {
+                // Verificar dependencias antes de eliminar
+                if (ExistenDependencias(id))
+                {
+                    TempData["ErrorMessage"] = "No se puede eliminar el dato, esta siendo usado en viajes.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                _context.Clientes.Remove(cliente);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Dato eliminado correctamente.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                // Manejar cualquier error al eliminar
+                TempData["ErrorMessage"] = "Ocurrió un error al intentar eliminar el estado.";
+                // Log del error ex.Message
+                return RedirectToAction(nameof(Index));
+            }
         }
 
-        private bool ClienteExists(int id)
+        private bool ExistenDependencias(int clienteId)
         {
-          return _context.Clientes.Any(e => e.IdCliente == id);
+            // Verificar si existen dependencias (por ejemplo, con choferes)
+            return _context.Viajes.Any(c => c.IdCliente == clienteId);
+            
         }
+
+        
     }
 }
