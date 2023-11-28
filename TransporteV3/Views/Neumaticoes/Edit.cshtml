@@ -41,9 +41,11 @@
                         </div>
                         <div class="col-12 col-sm-4 form-floating mb-2">
 
-                            <input asp-for="Modelo" class="form-control" placeholder="Modelo" />
+                            <input asp-for="Modelo" class="form-control" placeholder="Modelo" required/>
                             <label asp-for="Modelo" class="control-label"></label>
                             <span asp-validation-for="Modelo" class="text-danger"></span>
+                            <span asp-validation-for="Modelo" class="valid-feedback">Datos correctos!</span>
+                            <span asp-validation-for="Modelo" class="invalid-feedback">Complete los datos!</span>
                         </div>
                         <div class="col-12 col-sm-4 form-floating mb-2">
 
